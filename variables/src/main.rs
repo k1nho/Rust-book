@@ -37,6 +37,13 @@ fn main() {
     let arr: [i32; 4] = [1,2,3,4];
     let arr_sum = sum_array(arr);
     println!("Sum of the array is {arr_sum}");
+    let arr_sum = sum_with_for(arr);
+    println!("Sum of the array with for is {arr_sum}");
+    let temp = 32;
+    let temp_to_f = c_to_fah(temp);
+    let temp_to_c = fah_to_c(temp);
+    println!("{temp} celsius is {temp_to_f} in farenheit");
+    println!("{temp} farenheit is {temp_to_c} in celsius");
 }
 
 fn sum_array(arr : [i32;4]) -> i32 {
@@ -49,4 +56,23 @@ fn sum_array(arr : [i32;4]) -> i32 {
     }
 
     sum // NOTE return types are expressions rather than statements
+}
+
+fn sum_with_for(arr: [i32;4]) -> i32 {
+    let mut sum = 0;
+    
+    for x in arr {
+        sum += x;
+    }
+    sum
+}
+
+fn fah_to_c(fah : i32) -> f64 {
+    let celsius = ((fah-32)*5) as f64/9.0;
+    celsius
+}
+
+fn c_to_fah(celsius : i32) -> f64 {
+    let fah = ((celsius*9)as f64/5.0) + 32.0; 
+    fah
 }
