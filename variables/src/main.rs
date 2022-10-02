@@ -34,7 +34,7 @@ fn main() {
     println!("Number is {num}, the decimal is {dec}, and the character is {c}");
 
     // compound type(array)
-    let arr: [i32; 4] = [1,2,3,4];
+    let arr: [i32; 10] = [1,2,3,4,5,6,7,8,9,10];
     let arr_sum = sum_array(arr);
     println!("Sum of the array is {arr_sum}");
     let arr_sum = sum_with_for(arr);
@@ -44,9 +44,15 @@ fn main() {
     let temp_to_c = fah_to_c(temp);
     println!("{temp} celsius is {temp_to_f} in farenheit");
     println!("{temp} farenheit is {temp_to_c} in celsius");
+
+    let mut fibres;
+    for el in arr {
+        fibres = nth_fibonnacci(el);
+        println!("Fibonnacci of {el} is {fibres}")
+    }
 }
 
-fn sum_array(arr : [i32;4]) -> i32 {
+fn sum_array(arr : [i32;10]) -> i32 {
     let mut sum = 0;
     let mut n = arr.len();
 
@@ -58,7 +64,7 @@ fn sum_array(arr : [i32;4]) -> i32 {
     sum // NOTE return types are expressions rather than statements
 }
 
-fn sum_with_for(arr: [i32;4]) -> i32 {
+fn sum_with_for(arr: [i32;10]) -> i32 {
     let mut sum = 0;
     
     for x in arr {
@@ -75,4 +81,20 @@ fn fah_to_c(fah : i32) -> f64 {
 fn c_to_fah(celsius : i32) -> f64 {
     let fah = ((celsius*9)as f64/5.0) + 32.0; 
     fah
+}
+
+fn nth_fibonnacci(num : i32) -> i32 { 
+   let mut prev1 = 1;
+   let mut prev2 = 1;
+   let mut n = num -2;
+
+   while n > 0 { 
+    let x = prev1 + prev2;
+    prev2 = prev1;
+    prev1 = x;
+    n -= 1;
+   }
+
+   prev1
+
 }
