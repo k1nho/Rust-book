@@ -20,5 +20,16 @@ fn main() {
 
     println!("num is {num}");
 
+    // compound tuple type
+    let tup :(i32, f64, char) = (32, 3.14, 'z');
+
+    let (num, dec, c)  = tup;
+    println!("Number is {num}, the decimal is {dec}, and the character is {c}");
+
+    // Accessing individual elements of a tuple (also shadowing)
+    let num = tup.0;
+    let dec = tup.2;
+    let c  = tup.1;
     
+    println!("Number is {num}, the decimal is {dec}, and the character is {c}");
 }
