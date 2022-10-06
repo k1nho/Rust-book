@@ -50,6 +50,20 @@ fn main() {
         fibres = nth_fibonnacci(el);
         println!("Fibonnacci of {el} is {fibres}")
     }
+
+    // Conditionals
+    let y = 5;
+    let t_mut: i32;
+    if y == 10 {
+        println!("Y is not 10");
+    } 
+    else {
+        println!("Y is {y}");
+    }
+    
+    t_mut = if y == 10 {5} else {6};
+    println!("t is {t_mut}");
+
 }
 
 fn sum_array(arr : [i32;10]) -> i32 {
