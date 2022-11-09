@@ -6,6 +6,7 @@ struct User {
 }
 
 // unnamed Structs (used when we need a type, otherwise use tuple)
+#[derive(Debug)]
 struct RGB(u32, u32, u32);
 struct Point(u32, u32);
 
@@ -40,6 +41,11 @@ fn main() {
     println!("blue position is {}", blue.2);
     let origin  = Point(0, 0);
     println!("The point coordinates are x: {}, y: {}", origin.0, origin.1);
+
+    // printing entire structs with the debug trait
+    println!("The color blue is defined as {:?}", blue);
+    // or by using dbg macro
+    dbg!(&blue);
     
 }
 
