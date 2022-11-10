@@ -10,6 +10,15 @@ struct User {
 struct RGB(u32, u32, u32);
 struct Point(u32, u32);
 
+impl Point {
+    fn slope(&self, p: &Point) -> u32 {
+       if p.0 - self.0 == 0 {return 0;}
+       else {
+            return (p.1 - self.1)/(p.0 -self.0);
+       }
+    }
+}
+
 fn main() {
     
     // instance of User
@@ -35,13 +44,13 @@ fn main() {
     };
     
     // username field of new_usr is no longer accessible (its ownership was moved)
-    println!("the user of copy is {}", copy_usr.username);
+    println!("the user of copy is {}, is currently {}, and it has sign in {} times", copy_usr.username, copy_usr.active, copy_usr.sign_in_count);
 
     let blue = RGB(0, 0, 255);
     println!("blue position is {}", blue.2);
     let origin  = Point(0, 0);
-    println!("The point coordinates are x: {}, y: {}", origin.0, origin.1);
-
+    let slope = origin.slope(&Point(5,5));
+    println!("The point coordinates are x: {}, y: {}, and its slope is {}", origin.0, origin.1, slope);
     // printing entire structs with the debug trait
     println!("The color blue is defined as {:?}", blue);
     // or by using dbg macro
