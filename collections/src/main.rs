@@ -16,5 +16,17 @@ fn main() {
         Some(j) => println!("Number was accesed successfully {}", j),
         None => println!("Index out of bounds"),
     }
+    
+    // iterating
+    for el in &v1 {
+        println!("element {}", el);
+    }
+
+    // modifying values while iterating
+    for el in &mut v1 {
+        println!("element {}", el);
+        *el += 10;
+        println!("element after {} ", el);
+    }
 
 }
