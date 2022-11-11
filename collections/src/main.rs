@@ -21,6 +21,12 @@ fn main() {
     for el in &v1 {
         println!("element {}", el);
     }
+    v1.pop();
+    println!("after removal of last element");
+    for el in &v1 {
+        println!("element {}", el);
+    }
+
 
     // modifying values while iterating
     for el in &mut v1 {
@@ -28,5 +34,24 @@ fn main() {
         *el += 10;
         println!("element after {} ", el);
     }
+
+    // To store multiple types in a vector we can use an Enum
+    #[derive(Debug)]
+    enum CellType {
+        Int(i32),
+        Float(f64),
+        Text(String),
+    } 
+
+    let row = vec![CellType::Int(32), CellType::Float(3.2), CellType::Text(String::from("hello"))];
+
+    for i in &row {
+        match i {
+           CellType::Int(val) => println!("CellType is {}", val),
+           CellType::Float(val) => println!("CellType is {}", val), 
+           CellType::Text(val) => println!("CellType is {}", val), 
+        }
+    }
+
 
 }
