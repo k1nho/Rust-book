@@ -1,5 +1,5 @@
 fn main() {
-    // vectors
+    // VECTORS
     let mut v: Vec<i32> =  Vec::new();
     let mut v1 = vec![1,2,3];
     
@@ -52,6 +52,31 @@ fn main() {
            CellType::Text(val) => println!("CellType is {}", val), 
         }
     }
+    
+    // STRINGS
+    let s = "Linux, Ubuntu and Arch";
+    let mut cs = s.to_string(); // converts a literal string to a String type
+    println!("s is {}, and cs is {}", s, cs);                            
 
+    // modifying String
+    cs.push_str(". I use Arch");
+    cs.push('b');
+    println!("cs is now {}", cs);                            
+
+    // using the + operator to concatenate, there is a few catches
+    // 1. if we use it directly and do not pass teh strings as references we take ownership
+    // 2. we can use the format! macro to concatenate all the strings without worrying about ownner
+    
+    // let concats = cs + s; this will give ownership of cs
+    let concats = format!("{} {}", s, cs);
+    let dog = "clifford";
+    println!("concats is now {}", concats);                            
+    
+    // Since strings are UTF-8 we need to be aware that accesing a string by indexing might not
+    // return the character itself (some can be encoded as more than 1 byte) thus we use chars or
+    // bytes to access the actual parts of the string correctly
+    for ch in dog.chars() {
+        println!("this is the character {}", ch);
+    }
 
 }
