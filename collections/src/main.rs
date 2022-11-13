@@ -1,4 +1,10 @@
 use std::collections::HashMap;
+use std::cmp;
+
+struct Stats {
+    median : f32,
+    mode : i32,
+}
 
 fn main() {
     // VECTORS
@@ -93,7 +99,65 @@ fn main() {
     for (key, value) in &scores {
         println!("k: {}, v: {}", key, value);
     }
+    println!();
+    
+    // keep in mind that hashmap follow the same ownership rules of non-Copy trait types
+    // if we pass a string into the hashmap it will take ownership of the string
+    let team =  String::from("Hawk");
+    scores.insert(team, 1);
+    // team is no longer valid here
 
+    // adding key, val pair if key already exists
+    scores.entry(String::from("Hawk")).or_insert(10);
+    scores.entry(String::from("Feing")).or_insert(20);
+    
+    for (key, value) in &scores {
+        println!("k: {}, v: {}", key, value);
+    }
 
+    let s = String::from("abc one two three four");
+    let mut freq = HashMap::new();
 
+    for i in s.chars() {
+        if i == ' ' {continue;}
+        let val = freq.entry(i).or_insert(0);
+        *val+=1;
+    }
+
+    for(key, val) in &freq {
+        println!("k: {}, v: {}", key, val);
+    }
+    
+    let list = vec![1,2,3,4];
+    let stats = find_median_and_mode(&list);
+    println!("Median: {}, Mode: {}", stats.median, stats.mode);
+
+}
+
+fn find_median_and_mode(v: &Vec<i32>) -> Stats {
+    let mut freq = HashMap::new();
+    let n = v.len();
+    let m : f32;
+    let mut max_freq = 0;
+
+    if n%2 == 0 {
+       m = (v[n/2 - 1] + v[(n/2)]) as f32/2.0; 
+    }
+    else {
+       m = v[n/2] as f32;
+    }
+
+    for i in v {
+        let val = freq.entry(i).or_insert(0);
+        *val += 1;
+        max_freq = cmp::max(max_freq, *val); 
+    }    
+
+    let res = Stats {
+        median : m, 
+        mode: max_freq,
+    };
+
+    return res;
+   
 }
