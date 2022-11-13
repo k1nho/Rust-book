@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 fn main() {
     // VECTORS
     let mut v: Vec<i32> =  Vec::new();
@@ -78,5 +80,20 @@ fn main() {
     for ch in dog.chars() {
         println!("this is the character {}", ch);
     }
+
+    // HASH MAP
+    let mut scores = HashMap::new();
+    scores.insert(String::from("Nvy"), 10);
+    scores.insert(String::from("Optic"), 20);
+    
+    let score = scores.get("Optic").copied().unwrap_or(0);
+    println!("The score of Optic is {}", score);
+
+    // iterating
+    for (key, value) in &scores {
+        println!("k: {}, v: {}", key, value);
+    }
+
+
 
 }
