@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use std::cmp;
+use std::collections::{HashMap, HashSet};
 
 struct Stats {
     median : f32,
@@ -132,6 +132,12 @@ fn main() {
     let stats = find_median_and_mode(&list);
     println!("Median: {}, Mode: {}", stats.median, stats.mode);
 
+    let sentence = "hello pig conversion awesome";
+    let pig_sentence = convert_string(sentence);
+    
+    println!("sentence: {}", sentence);
+    println!("pig sentence: {}", pig_sentence);
+
 }
 
 fn find_median_and_mode(v: &Vec<i32>) -> Stats {
@@ -160,4 +166,27 @@ fn find_median_and_mode(v: &Vec<i32>) -> Stats {
 
     return res;
    
+}
+
+fn convert_string(s : &str) -> String{
+    let mut vowels = HashSet::new();
+    let mut res = String::new();
+    vowels.insert('a');
+    vowels.insert('e');
+    vowels.insert('i');
+    vowels.insert('o');
+    vowels.insert('u');
+
+    for word in s.split_whitespace() {
+        let letter = word.chars().next().unwrap();
+        if vowels.contains(&letter){
+            res.push_str(&format!(" {}-hay",word)[0..]);
+        }
+        else {
+            let cut_word = &word[1..];
+            res.push_str(&format!(" {}-{}ay", cut_word, letter)[0..]);
+        }
+    }
+    
+    res
 }
