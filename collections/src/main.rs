@@ -1,4 +1,5 @@
 use std::cmp;
+use std::io;
 use std::collections::{HashMap, HashSet};
 
 struct Stats {
@@ -138,6 +139,8 @@ fn main() {
     println!("sentence: {}", sentence);
     println!("pig sentence: {}", pig_sentence);
 
+    management_cli();
+
 }
 
 fn find_median_and_mode(v: &Vec<i32>) -> Stats {
@@ -190,3 +193,53 @@ fn convert_string(s : &str) -> String{
     
     res
 }
+
+fn management_cli() {
+    
+   // map a deparment to the personnel
+   let mut system : HashMap<String, Vec<String>>  = HashMap::new();
+   let mut cmd = String::from("");
+   while cmd != "3" {
+       println!("\n**********************"); 
+       println!("management"); 
+       println!("1. add personnel"); 
+       println!("2. get deparment staff"); 
+       println!("3. Quit"); 
+       println!("**********************"); 
+        cmd.clear(); // must clear the string otherwise is just going to append
+        io::stdin().read_line(&mut cmd).expect("could not read the command");
+        let cmd = cmd.trim();
+    
+       let mut name = String::from("");
+       let mut deparment = String::from("");
+        match cmd {
+               "1" => {
+                   println!("Personnel name:");
+                   io::stdin().read_line(&mut name).expect("could not read data");
+                   println!("Deparment name:");
+                   io::stdin().read_line(&mut deparment).expect("could not read data");
+                   let name = name.trim().to_string();
+                   let deparment = deparment.trim().to_string();
+                   system.entry(deparment).or_insert(Vec::new()).push(name);
+               },
+               
+               "2" => {
+                   println!("Deparment name:");
+                   io::stdin().read_line(&mut deparment).expect("could not read data");
+                   let deparment = deparment.trim().to_string();
+                   if system.contains_key(&deparment) {
+                        let v = system.get(&deparment); 
+
+                        for person in &v {
+                            println!("{:?}", person);
+                        }
+                   }
+               },
+               _ => (),
+           }
+   }   
+
+   println!("Exit system");
+
+        
+} 
