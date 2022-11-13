@@ -228,14 +228,15 @@ fn management_cli() {
                    io::stdin().read_line(&mut deparment).expect("could not read data");
                    let deparment = deparment.trim().to_string();
                    if system.contains_key(&deparment) {
-                        let v = system.get(&deparment); 
+                        let v = system.get_mut(&deparment).unwrap(); 
+                         v.sort_by(|a,b| a.to_lowercase().cmp(&b.to_lowercase()));
 
-                        for person in &v {
+                        for person in v {
                             println!("{:?}", person);
                         }
                    }
                },
-               _ => (),
+               _ => break,
            }
    }   
 
