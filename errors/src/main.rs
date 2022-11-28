@@ -1,5 +1,25 @@
 use std::fs::File;
 use std::io::{self, Read, ErrorKind};
+
+pub struct Guess {
+    value : i32,
+}
+
+// Struct with validation in mind
+impl Guess {
+    pub fn new(value : i32) -> Guess {
+        if value < 1 || value > 100 {
+            panic!("could not create a new guess because value is not in range [1-100]")
+        }
+        
+        Guess {value}
+    }
+
+    pub fn value(&self) -> i32 {
+        self.value
+    }
+}
+
 fn main() {
     // unrecoverable errors (RUST_BACKTRACE to 1 will give us the backtrace of the error)
     // panic!("stop! unrecoverable error has been encountered");
@@ -25,10 +45,9 @@ fn main() {
     // for prod expect is slightly better to know why the code failed
     let short_file_ex = File::open("hello.txt").expect("error opening a file"); 
 
-
-    
     
 }
+
 
 fn read_username_from_file() -> Result<String, io::Error> {
     // propagating errors (effectively with ?)
