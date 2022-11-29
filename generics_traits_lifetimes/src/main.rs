@@ -45,6 +45,16 @@ impl Summary for Tweet {
     }
 }
 
+// Trait as param
+pub fn alert(item : &impl Summary) {
+    println!("Alert! {}", item.summarize())
+}
+// If we want the same type that implements the Trait we need to use generic
+pub fn same_type_alert<T: Summary>(item1 : &T, item2 : &T) {
+    println!("summary 1 : {}", item1.summarize());
+    println!("summary 2 : {}", item2.summarize());
+}
+
 fn main() {
     let p1 = Point{x : "p1x", y: "p1y"};
     let p2 = Point{x : 1, y : 2};
