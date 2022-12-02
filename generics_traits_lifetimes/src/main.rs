@@ -55,10 +55,21 @@ pub fn same_type_alert<T: Summary>(item1 : &T, item2 : &T) {
     println!("summary 2 : {}", item2.summarize());
 }
 
+// Returning types that implement traits
+fn return_summarizable() -> impl Summary {
+    Tweet{
+        username: String::from("kinho"),
+        content: String::from("Getting Rusty"),
+        reply: String::from("here we go"),
+        retweet: String::from("yes")
+    }
+}
+
 fn main() {
     let p1 = Point{x : "p1x", y: "p1y"};
     let p2 = Point{x : 1, y : 2};
     let p3 = p1.create_composite_point(p2);
+    let tweet = return_summarizable();
     println!("we have the composite point is {:?}", p3);
 }
 
