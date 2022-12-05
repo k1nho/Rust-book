@@ -1,7 +1,32 @@
+use std::fmt::Display;
+use std::fmt::Debug;
+
 #[derive(Debug)]
 pub struct Point<X1, Y1> {
     x : X1,
     y : Y1,
+}
+
+pub struct Pair<T> {
+    x: T, 
+    y: T
+}
+
+impl<T> Pair<T> {
+    fn new(x: T, y: T) -> Self {
+        Self{x, y}
+    }
+}
+
+impl<T: Display + PartialOrd> Pair<T> {
+    fn cmp_display(&self) {
+        if self.x > self.y {
+            println!("x is greater : {}", self.x)
+        }
+        else {
+            println!("y is greater: {}", self.y)
+        }
+    }
 }
 
 impl<X1, Y1> Point<X1, Y1> {
@@ -71,6 +96,10 @@ fn main() {
     let p3 = p1.create_composite_point(p2);
     let tweet = return_summarizable();
     println!("we have the composite point is {:?}", p3);
+    println!("the tweet is the following: {:?}", tweet.summarize());
+    let num = 3;
+    // to_string can be called on integer type because it implements the Display Trait
+    let numstr = num.to_string();
 }
 
 
