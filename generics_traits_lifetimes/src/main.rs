@@ -90,6 +90,23 @@ fn return_summarizable() -> impl Summary {
     }
 }
 
+// LIFETIMES: scoping system that controls borrowing rules
+
+// Lifetime anotations
+// this says: let the returned string sliced have a lifetime that is the same as the min of the
+// values referred by the function arguments
+fn longest_string<'a>(x : &'a str, y : &'a str) -> &'a str {
+    if x.len() > y.len() {x}
+    else {y}
+}
+
+// Lifetimes have 3 rules in general
+// lifetimes get assigned to each parameter passed
+// 1 parameter only? then lifetime of return is the same 
+// if self is one of the parameters then lifetime of return is the same as self
+
+// 'static lifetimes can be used to denote that a reference lives the entire program
+
 fn main() {
     let p1 = Point{x : "p1x", y: "p1y"};
     let p2 = Point{x : 1, y : 2};
@@ -100,6 +117,10 @@ fn main() {
     let num = 3;
     // to_string can be called on integer type because it implements the Display Trait
     let numstr = num.to_string();
+
+    let s1 = "Infernape";
+    let s2 = "Empoleon";
+    let s3 = longest_string(s1, s2);
 }
 
 
