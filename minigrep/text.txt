@@ -1,0 +1,6 @@
+Rustlang is now being introduced in the Linux Kernel
+TS is stronger than ever, no enums that are great though
+Next is great and with the addition of turbopack is HMR is more powerful
+Prisma ORM to query away
+next is a production framework for react
+Out of JS and TS, we find TS better due to typesafety

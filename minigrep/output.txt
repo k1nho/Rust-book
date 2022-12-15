@@ -1,0 +1,4 @@
+Searching for: next
+In file: text.txt
+Next is great and with the addition of turbopack is HMR is more powerful
+next is a production framework for react
