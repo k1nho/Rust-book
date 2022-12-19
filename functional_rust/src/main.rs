@@ -42,4 +42,12 @@ fn main() {
     println!("User 1 has preferance {:?} and obtains {:?}", user1_pref, inventory.giveaway(user1_pref));
     println!("User 2 has preferance {:?} and obtains {:?}", user2_pref, inventory.giveaway(user2_pref));
     println!("User 3 has no preferance and obtains {:?}", inventory.giveaway(user3_pref));
+
+    // CLOSURES
+    let add_one = |x: u32| -> u32 {x +1};
+    let add_two = |x: u32| x+2;
+    let v = vec![1,5,6];
+    
+    let num = 5;
+    println!("The original number was {}, after calling closure add_one {}, after calling closure add_two {}", num, add_one(num), add_two(num));
 }
