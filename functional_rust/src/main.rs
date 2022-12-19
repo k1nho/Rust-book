@@ -4,6 +4,21 @@ enum ShirtColor {
     Blue,
 }
 
+
+#[derive(Debug)]
+enum ShirtSize {
+    S, 
+    M,
+    L, 
+    XL,
+}
+
+#[derive(Debug)]
+struct Shirt {
+    size: ShirtSize,
+    color: ShirtColor,
+}
+
 struct Inventory {
     shirts : Vec<ShirtColor>
 }
@@ -46,8 +61,43 @@ fn main() {
     // CLOSURES
     let add_one = |x: u32| -> u32 {x +1};
     let add_two = |x: u32| x+2;
-    let v = vec![1,5,6];
+    let mut v = vec![1,5,6];
     
     let num = 5;
     println!("The original number was {}, after calling closure add_one {}, after calling closure add_two {}", num, add_one(num), add_two(num));
+
+    let mut mutate_vec = || v.push(10);
+    mutate_vec();
+    let read_vec = || println!("the list contains {:?}", v);
+    read_vec();
+    //ownership in closures
+    //let own_vec =  move || println!("own_vec has now ownership of v {:?}", v);
+    //own_vec();
+    //
+    
+    /* Three traits that closures could implement
+    * FnOnce: closures that can be called once
+    * FnMut: don't move values out the body, but might mutate captured values
+    * Fn: don't move captured values , don't mutate and don't capture anything from their environment 
+    */
+    
+    // ITERATORS
+    let v_iter = v.iter();
+
+    //cosuming adaptors (methods that consume iterators)
+    let sum : u32 = v_iter.sum();
+    println!("we consumed the iterator into a sum {sum}");
+    
+    //iterator adaptors (methods that produce another iterator)
+    let res : Vec<_> = v.iter().map(|x| x + 1).collect();
+    println!("after using an iterator adaptor we have the following vector {:?}", res);
+
+    let shirts = vec![Shirt{size: ShirtSize::S, color: ShirtColor::Red}, Shirt{size: ShirtSize::M, color: ShirtColor::Blue}, Shirt{size: ShirtSize::XL, color: ShirtColor::Blue}];
+    
+    // get the shirts that are only Blue
+    let blue_shirts : Vec<_> = shirts.iter().filter(|shirt|  shirt.color == ShirtColor::Blue).collect();
+    let red_shirts : Vec<_> = shirts.iter().filter(|shirt|  shirt.color == ShirtColor::Red).collect();
+    dbg!(blue_shirts);
+    dbg!(red_shirts);
+
 }
