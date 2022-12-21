@@ -1,6 +1,42 @@
+use std::ops::Deref;
+
+struct FancyData {
+    data: String,
+    id: u32,
+}
+
+impl FancyData {
+    fn getData(&self) -> &str {
+        self.data.as_str()
+    }
+}
+
+impl Drop for FancyData {
+    fn drop(&mut self) {
+        println!("out of scoped ...  being dropped {}", self.id);
+    }
+}
+
 enum List {
     Cons(i32, Box<List>),
     Nil,
+}
+
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+}
+
+// Deref trait so that the struct MyBox can be derefenreced
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
 }
 
 use crate::List::{Cons, Nil};
@@ -26,4 +62,19 @@ fn main() {
     let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
 
     // Two traits are key to the implmentation of Box: Deref, and Drop
+    let ref_to_i32 = MyBox::new(5);
+    println!("the value of the i32 ref is {}", *ref_to_i32);
+
+    let f_data = FancyData {
+        data: String::from("Rustup to install"),
+        id: 1,
+    };
+    let t_data = FancyData {
+        data: String::from("More rust"),
+        id: 2,
+    };
+
+    println!("Getting f_data: {}", f_data.getData());
+    println!("Getting t_data: {}", t_data.getData());
+    // Now handle automatic drop by implmenting the drop trait
 }
