@@ -1,5 +1,42 @@
+use std::cell::RefCell;
 use std::ops::Deref;
 use std::rc::Rc;
+
+pub trait Messenger {
+    fn send(&self, msg: &str);
+}
+
+pub struct LimitTracker<'a, T: Messenger> {
+    messenger: &'a T,
+    value: usize,
+    max: usize,
+}
+
+impl<'a, T> LimitTracker<'a, T>
+where
+    T: Messenger,
+{
+    pub fn new(messenger: &'a T, max: usize) -> LimitTracker<'a, T> {
+        LimitTracker {
+            messenger,
+            value: 0,
+            max,
+        }
+    }
+
+    pub fn set_value(&mut self, value: usize) {
+        self.value = value;
+        let percent_of_max = self.value as f64 / self.max as f64;
+
+        if percent_of_max >= 1.0 {
+            self.messenger.send("Over the quota");
+        } else if percent_of_max >= 0.9 {
+            self.messenger.send("90% of the quota consumed");
+        } else if percent_of_max >= 0.75 {
+            self.messenger.send("75% of the quota consumed");
+        }
+    }
+}
 
 struct FancyData {
     data: String,
@@ -7,7 +44,7 @@ struct FancyData {
 }
 
 impl FancyData {
-    fn getData(&self) -> &str {
+    fn get_data(&self) -> &str {
         self.data.as_str()
     }
 }
@@ -75,8 +112,8 @@ fn main() {
         id: 2,
     };
 
-    println!("Getting f_data: {}", f_data.getData());
-    println!("Getting t_data: {}", t_data.getData());
+    println!("Getting f_data: {}", f_data.get_data());
+    println!("Getting t_data: {}", t_data.get_data());
     // Now handle automatic drop by implmenting the drop trait
 
     // Rc<T> smart pointer
@@ -87,4 +124,37 @@ fn main() {
     let c_list = Cons(5, Rc::clone(&a_list));
 
     // RefCell<T> smart pointer
+    // interior mutability (mutate data when there are immutable references to it)
+    // this happens in runtime, so in case of an error it panics
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    struct MockMessenger {
+        sent_messages: RefCell<Vec<String>>,
+    }
+
+    impl MockMessenger {
+        fn new() -> MockMessenger {
+            MockMessenger {
+                sent_messages: RefCell::new(vec![]),
+            }
+        }
+    }
+
+    impl Messenger for MockMessenger {
+        fn send(&self, msg: &str) {
+            self.sent_messages.borrow_mut().push(String::from(msg));
+        }
+    }
+
+    #[test]
+    fn it_sends_an_over_90_percent_message() {
+        let mock_messanger = MockMessenger::new();
+        mock_messanger.send("my first message");
+
+        assert_eq!(mock_messanger.sent_messages.borrow().len(), 1);
+    }
 }
