@@ -1,4 +1,5 @@
 use std::ops::Deref;
+use std::rc::Rc;
 
 struct FancyData {
     data: String,
@@ -18,7 +19,7 @@ impl Drop for FancyData {
 }
 
 enum List {
-    Cons(i32, Box<List>),
+    Cons(i32, Rc<List>),
     Nil,
 }
 
@@ -59,7 +60,7 @@ fn main() {
     // it is possible with box to know the size of a recursively infinite data as it is the case
     // here with list that contains a Cons pair of i32 and List, by boxing the List we know the
     // fixed size of data i32 + box pointer
-    let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
+    let list = Cons(1, Rc::new(Cons(2, Rc::new(Cons(3, Rc::new(Nil))))));
 
     // Two traits are key to the implmentation of Box: Deref, and Drop
     let ref_to_i32 = MyBox::new(5);
@@ -77,4 +78,13 @@ fn main() {
     println!("Getting f_data: {}", f_data.getData());
     println!("Getting t_data: {}", t_data.getData());
     // Now handle automatic drop by implmenting the drop trait
+
+    // Rc<T> smart pointer
+    // Enable multiple ownership (reference counting pointer)
+    // clone() increases the reference count
+    let a_list = Rc::new(Cons(1, Rc::new(Cons(3, Rc::new(Nil)))));
+    let b_list = Cons(2, Rc::clone(&a_list));
+    let c_list = Cons(5, Rc::clone(&a_list));
+
+    // RefCell<T> smart pointer
 }
