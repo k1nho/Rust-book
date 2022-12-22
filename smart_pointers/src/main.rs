@@ -1,4 +1,3 @@
-use std::cell::RefCell;
 use std::ops::Deref;
 use std::rc::Rc;
 
@@ -122,15 +121,24 @@ fn main() {
     let a_list = Rc::new(Cons(1, Rc::new(Cons(3, Rc::new(Nil)))));
     let b_list = Cons(2, Rc::clone(&a_list));
     let c_list = Cons(5, Rc::clone(&a_list));
+    println!(
+        "the current reference count for list a is {}",
+        Rc::strong_count(&a_list)
+    );
 
     // RefCell<T> smart pointer
     // interior mutability (mutate data when there are immutable references to it)
     // this happens in runtime, so in case of an error it panics
+
+    // Weak<T> in order to avoid reference cycles that can produce stack overflow
+    // we can use Weak<T> which is a variant of Rc<T> such that the counter does not have to reach
+    // 0 in order to be dropped
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::cell::RefCell;
 
     struct MockMessenger {
         sent_messages: RefCell<Vec<String>>,
