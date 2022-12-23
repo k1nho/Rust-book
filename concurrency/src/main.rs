@@ -1,11 +1,14 @@
 use std::thread;
 use std::time::Duration;
 
+use concurrency::{message_pattern, multiple_message_sending};
+
 fn main() {
-    // spawning a thread
-    let handle = thread::spawn(|| {
+    let v = vec![1, 2, 3, 4];
+    // spawning a thread (using move to take ownership)
+    let handle = thread::spawn(move || {
         for i in 1..10 {
-            println!("hi number {}, spawned thread", i);
+            println!("spawned thread {}: vector {:?}", i, v);
             thread::sleep(Duration::from_millis(1));
         }
     });
@@ -20,4 +23,6 @@ fn main() {
 
     // wait for the main thread to finish the work
     handle.join().unwrap();
+
+    multiple_message_sending();
 }
