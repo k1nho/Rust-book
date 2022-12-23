@@ -1,7 +1,7 @@
 use std::thread;
 use std::time::Duration;
 
-use concurrency::{message_pattern, multiple_message_sending, multiple_producers};
+use concurrency::message_pattern::{basic, channel, producers};
 
 fn main() {
     let v = vec![1, 2, 3, 4];
@@ -24,5 +24,5 @@ fn main() {
     // wait for the main thread to finish the work
     handle.join().unwrap();
 
-    multiple_producers();
+    producers::multiple_producers();
 }
