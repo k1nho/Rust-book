@@ -2,6 +2,7 @@ use std::thread;
 use std::time::Duration;
 
 use concurrency::message_pattern::{basic, channel, producers};
+use concurrency::shared_state_pattern::mutex;
 
 fn main() {
     let v = vec![1, 2, 3, 4];
@@ -24,5 +25,7 @@ fn main() {
     // wait for the main thread to finish the work
     handle.join().unwrap();
 
-    producers::multiple_producers();
+    //producers::multiple_producers();
+    //mutex::mutex_pattern();
+    mutex::sharing_mutex();
 }
