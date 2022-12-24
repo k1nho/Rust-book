@@ -31,6 +31,26 @@ impl AverageCalculator {
     }
 }
 
+// INHERITANCE (with traits)
+pub trait Draw {
+    fn draw(&self);
+}
+
+pub struct Screen {
+    pub components: Vec<Box<dyn Draw>>,
+}
+
+// if we were to have a generic implementation then the idea is that every component will be of
+// a type that implements Draw but an specific type rather than a collections of types
+// (monomorphization)
+impl Screen {
+    pub fn run(&self) {
+        for component in self.components.iter() {
+            component.draw();
+        }
+    }
+}
+
 fn main() {
     let mut avg_calc = AverageCalculator {
         list: vec![32, 50, 74],
