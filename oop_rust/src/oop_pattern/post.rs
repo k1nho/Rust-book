@@ -16,26 +16,59 @@ impl Post {
     }
 
     pub fn request_review(&mut self) {
+        // must be set to None temporarily to get the ownership of the state
         if let Some(s) = self.state.take() {
             self.state = Some(s.request_review())
         }
+    }
+
+    pub fn approve(&mut self) {
+        // must be set to None temporarily to get the ownership of the state
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.approve())
+        }
+    }
+
+    pub fn content(&self) -> &str {
+        self.state.as_ref().unwrap().content(self)
     }
 }
 
 trait State {
     fn request_review(self: Box<Self>) -> Box<dyn State>;
+    fn approve(self: Box<Self>) -> Box<dyn State>;
 }
 
 struct Draft {}
 struct PendingReview {}
+struct Published {}
 
 impl State for Draft {
     fn request_review(self: Box<Self>) -> Box<dyn State> {
         Box::new(PendingReview {})
     }
+
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
 }
+
 impl State for PendingReview {
     fn request_review(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        Box::new(Published {})
+    }
+}
+
+impl State for Published {
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+
+    fn approve(self: Box<Self>) -> Box<dyn State> {
         self
     }
 }
