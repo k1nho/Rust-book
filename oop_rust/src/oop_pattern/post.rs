@@ -50,12 +50,25 @@ trait State {
 }
 
 struct Draft {}
-struct PendingReview {}
+struct PendingReview {
+    confirm: i32,
+}
 struct Published {}
+
+impl PendingReview {
+    pub fn check_confirmed(&mut self) -> bool {
+        if self.confirm == 2 {
+            return true;
+        } else {
+            self.confirm += 1;
+        }
+        false
+    }
+}
 
 impl State for Draft {
     fn request_review(self: Box<Self>) -> Box<dyn State> {
-        Box::new(PendingReview {})
+        Box::new(PendingReview { confirm: 0 })
     }
 
     fn approve(self: Box<Self>) -> Box<dyn State> {
@@ -72,8 +85,13 @@ impl State for PendingReview {
         self
     }
 
-    fn approve(self: Box<Self>) -> Box<dyn State> {
-        Box::new(Published {})
+    fn approve(mut self: Box<Self>) -> Box<dyn State> {
+        if self.check_confirmed() {
+            return Box::new(Published {});
+        } else {
+            self.confirm += 1;
+        }
+        self
     }
 
     fn reject(self: Box<Self>) -> Box<dyn State> {
