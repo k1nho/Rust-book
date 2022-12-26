@@ -91,5 +91,15 @@ fn main() {
 
     // approve
     new_post.approve();
-    println!("post content approve: {}", new_post.content());
+    println!("post content approve 1st: {}", new_post.content());
+    // go back to draft
+    new_post.reject();
+    println!("post content reject: {}", new_post.content());
+    // go back to request_review
+    new_post.request_review();
+    println!("post contennt request review: {}", new_post.content());
+    new_post.approve();
+    println!("post content approve 1st: {}", new_post.content());
+    new_post.approve();
+    println!("post content approve 2nd: {}", new_post.content());
 }
