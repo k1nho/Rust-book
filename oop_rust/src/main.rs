@@ -1,3 +1,5 @@
+use oop_rust::oop_pattern::post;
+
 // Encapsulation
 struct AverageCalculator {
     list: Vec<i32>,
@@ -68,4 +70,26 @@ fn main() {
     }
 
     println!("The average of the vector is {}", avg_calc.average());
+
+    // state pattern
+    let mut new_post = post::Post::new();
+    new_post.add_text("favorite shows");
+    println!("post content adding text: {}", new_post.content());
+    new_post.request_review();
+    println!("post content request review: {}", new_post.content());
+    // reject go back to draft
+    new_post.reject();
+    println!("post content reject: {}", new_post.content());
+
+    //try to approve
+    new_post.approve();
+    println!("post content approve: {}", new_post.content());
+
+    // go back to request_review
+    new_post.request_review();
+    println!("post content request review: {}", new_post.content());
+
+    // approve
+    new_post.approve();
+    println!("post content approve: {}", new_post.content());
 }
