@@ -12,7 +12,8 @@ impl Post {
     }
 
     pub fn add_text(&mut self, text: &str) {
-        self.content.push_str(text);
+        self.content
+            .push_str(self.state.as_ref().unwrap().text_to_append(text));
     }
 
     pub fn request_review(&mut self) {
@@ -47,6 +48,9 @@ trait State {
         ""
     }
     fn reject(self: Box<Self>) -> Box<dyn State>;
+    fn text_to_append<'a>(&self, text: &'a str) -> &'a str {
+        ""
+    }
 }
 
 struct Draft {}
@@ -77,6 +81,10 @@ impl State for Draft {
 
     fn reject(self: Box<Self>) -> Box<dyn State> {
         self
+    }
+    // allow modification of content only in this state
+    fn text_to_append<'a>(&self, text: &'a str) -> &'a str {
+        text
     }
 }
 
