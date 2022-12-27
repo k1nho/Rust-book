@@ -1,4 +1,5 @@
-use oop_rust::oop_pattern::post;
+use oop_rust::state_pattern::post;
+use oop_rust::typed_pattern;
 
 // Encapsulation
 struct AverageCalculator {
@@ -72,34 +73,42 @@ fn main() {
     println!("The average of the vector is {}", avg_calc.average());
 
     // state pattern
-    let mut new_post = post::Post::new();
-    new_post.add_text("favorite shows");
-    println!("post content adding text: {}", new_post.content());
-    new_post.request_review();
-    println!("post content request review: {}", new_post.content());
+    //let mut new_post = post::Post::new();
+    //new_post.add_text("favorite shows");
+    //println!("post content adding text: {}", new_post.content());
+    //new_post.request_review();
+    //println!("post content request review: {}", new_post.content());
     // reject go back to draft
-    new_post.reject();
-    println!("post content reject: {}", new_post.content());
+    //new_post.reject();
+    //println!("post content reject: {}", new_post.content());
 
     //try to approve
-    new_post.approve();
-    println!("post content approve: {}", new_post.content());
+    //new_post.approve();
+    //println!("post content approve: {}", new_post.content());
 
     // go back to request_review
-    new_post.request_review();
-    println!("post content request review: {}", new_post.content());
+    //new_post.request_review();
+    //println!("post content request review: {}", new_post.content());
 
     // approve
-    new_post.approve();
-    println!("post content approve 1st: {}", new_post.content());
+    //new_post.approve();
+    //println!("post content approve 1st: {}", new_post.content());
     // go back to draft
-    new_post.reject();
-    println!("post content reject: {}", new_post.content());
+    //new_post.reject();
+    //println!("post content reject: {}", new_post.content());
     // go back to request_review
-    new_post.request_review();
-    println!("post contennt request review: {}", new_post.content());
-    new_post.approve();
-    println!("post content approve 1st: {}", new_post.content());
-    new_post.approve();
-    println!("post content approve 2nd: {}", new_post.content());
+    //new_post.request_review();
+    //println!("post contennt request review: {}", new_post.content());
+    //new_post.add_text(", favorite pokemon?");
+    //new_post.approve();
+    //println!("post content approve 1st: {}", new_post.content());
+    //new_post.approve();
+    //println!("post content approve 2nd: {}", new_post.content());
+    //
+
+    let mut post = typed_pattern::post::Post::new();
+    post.add_text("using the type system as the oop pattern");
+    let post = post.request_review();
+    let post = post.approve();
+    println!("post has been published, we have {}", post.content());
 }
