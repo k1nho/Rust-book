@@ -2,6 +2,8 @@ use std::{
     fs,
     io::{prelude::*, BufReader},
     net::{TcpListener, TcpStream},
+    thread,
+    time::Duration,
 };
 
 fn main() {
@@ -22,10 +24,13 @@ fn handle_connection(mut stream: TcpStream) {
     //.take_while(|line| !line.is_empty())
     //.collect();
 
-    let (status, filename) = if request == "GET / HTTP/1.1" {
-        ("HTTP/1.1 200 OK", "index.html")
-    } else {
-        ("HTTP/1.1 400 NOT FOUND", "404.html")
+    let (status, filename) = match &request[..] {
+        "GET / HTTP/1.1" => ("HTTP/1.1 200 OK", "index.html"),
+        "GET /sleep HTTP/1.1" => {
+            thread::sleep(Duration::from_secs(5));
+            ("HTTP/1.1 200 OK", "index/html")
+        }
+        _ => ("HTTP/1.1 400 NOT FOUND", "404.html"),
     };
 
     let content = fs::read_to_string(filename).unwrap();
