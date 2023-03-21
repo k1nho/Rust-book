@@ -1,3 +1,8 @@
+struct Point {
+    x: i32,
+    y: i32,
+}
+
 fn main() {
     // the match expression is usually used in the following:
     // match Arms
@@ -31,5 +36,24 @@ fn main() {
         'a'..='z' => println!("it is lowercase"),
         'A'..='Z' => println!("it is uppercase"),
         _ => println!("not a letter"),
+    }
+
+    // Destructuring structs
+    let p = Point { x: 5, y: 10 };
+    let Point { x, y } = p;
+    println!("the coordinates of the point are ({}, {})", x, y);
+
+    // matching only part of a struct
+    match p {
+        Point { x, .. } => println!("operating on the x coordinate {}", x),
+    }
+
+    let num = Some(4);
+
+    // match guards
+    match num {
+        Some(x) if x % 2 == 0 => println!("it is even {}", x),
+        Some(x) => println!("it is odd {}", x),
+        None => (),
     }
 }
